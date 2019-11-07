@@ -1,0 +1,40 @@
+version: v1
+description: Terraform Cloud Provisioning
+
+parameters:
+  organization:
+    description: Organization name to pass to terraform
+  workspace: 
+    description: Workspace name to trigger a plan execution on
+  slack_channel:
+    description: Slack channel (include preceding hashtag)
+  slack_message:
+    description: Slack message
+
+steps:
+- name: terraform-execution
+  image: projectnebula/terraform:latest
+  spec:
+    workspace:
+      $type: Parameter
+      name: workspace
+    organization:
+      $type: Parameter
+      name: organization
+    tf_api_token:
+      $type: Secret
+      name: tf_api_token
+- name: slack-notify
+  dependsOn:
+    - terraform-execution
+  image: projectnebula/slack-notification
+  spec:
+    apitoken:
+       $type: Secret
+       name: slacktoken
+    channel:
+       $type: Parameter
+       name: slack_channel
+    message:
+       $type: Parameter
+       name: slack_message
