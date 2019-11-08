@@ -31,7 +31,7 @@ steps:
   spec:
     apitoken:
        $type: Secret
-       name: slacktoken
+       name: slack_apitoken
     channel:
        $type: Parameter
        name: slack_channel
