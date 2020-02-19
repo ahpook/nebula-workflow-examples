@@ -15,7 +15,7 @@ Parameter :: {
 
 Step :: {
 	name: string
-	description?: string 
+	description: *"" | string 
 	image: *"alpine:latest" | string
 	input: [...string]
 	dependsOn?: string | [string, ...string]
